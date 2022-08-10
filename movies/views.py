@@ -44,3 +44,24 @@ def create_movie(request: HttpRequest) -> HttpResponse:
     }
 
     return render(request, "create_movie.html", context)
+
+@login_required
+def user_login(request):
+    form = UserLogin()
+    if request.method == "POST":
+        form = UserLogin(request.POST)
+        if form.is_valid():
+
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+
+            auth_user = authenticate(username=username, password=password)
+            if auth_user is not None:
+                login(request, auth_user)
+                
+                return redirect("successful-login")
+
+    context = {
+        "form": form,
+    }
+    return render(request, "login.html", context)

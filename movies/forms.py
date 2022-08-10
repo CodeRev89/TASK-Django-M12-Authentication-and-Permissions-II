@@ -15,3 +15,7 @@ class MovieForm(forms.ModelForm):
     class Meta:
         model = models.Movie
         fields = ["name", "plot", "created_by"]
+        
+class UserLogin(forms.Form):
+    username = forms.CharField(required=True)
+    password = forms.CharField(required=True, widget=forms.PasswordInput())
